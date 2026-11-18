@@ -1,0 +1,16 @@
+[
+  {"query_id": "01b0-steps", "step_id": 2, "operator_id": 0, "parent_operators": null,
+   "operator_type": "Result",
+   "operator_statistics": {"input_rows": 1, "output_rows": 1},
+   "execution_time_breakdown": {"overall_percentage": 0.2}},
+  {"query_id": "01b0-steps", "step_id": 2, "operator_id": 1, "parent_operators": [0],
+   "operator_type": "Filter",
+   "operator_statistics": {"input_rows": 100, "output_rows": 1},
+   "execution_time_breakdown": {"overall_percentage": 0.3},
+   "operator_attributes": {"filter_condition": "T.X > (SELECT MAX(Y) FROM U)"}},
+  {"query_id": "01b0-steps", "step_id": 1, "operator_id": 0, "parent_operators": null,
+   "operator_type": "Aggregate",
+   "operator_statistics": {"input_rows": 50, "output_rows": 1},
+   "execution_time_breakdown": {"overall_percentage": 0.5},
+   "operator_attributes": {"functions": ["MAX(U.Y)"]}}
+]
