@@ -1,0 +1,72 @@
+[
+  {
+    "QUERY_ID": "snowflake-scalar-subquery",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 0,
+    "PARENT_OPERATORS": null,
+    "OPERATOR_TYPE": "Result",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 1\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"expressions\": [\n    \"(SUM(UNIFORM(1, 10, RANDOM(5)))) / (COUNT(UNIFORM(1, 10, RANDOM(5))))\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-scalar-subquery",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 1,
+    "PARENT_OPERATORS": "[\n  0\n]",
+    "OPERATOR_TYPE": "Aggregate",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 1000,\n  \"output_rows\": 1\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"functions\": [\n    \"SUM(UNIFORM(1, 10, RANDOM(5)))\",\n    \"COUNT(UNIFORM(1, 10, RANDOM(5)))\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-scalar-subquery",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 2,
+    "PARENT_OPERATORS": "[\n  1\n]",
+    "OPERATOR_TYPE": "Generator",
+    "OPERATOR_STATISTICS": "{\n  \"output_rows\": 1000\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"rowcount\": \"1000\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-scalar-subquery",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 0,
+    "PARENT_OPERATORS": null,
+    "OPERATOR_TYPE": "Result",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 1\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"expressions\": [\n    \"COUNT(*)\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-scalar-subquery",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 1,
+    "PARENT_OPERATORS": "[\n  0\n]",
+    "OPERATOR_TYPE": "Aggregate",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 523,\n  \"output_rows\": 1\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"functions\": [\n    \"COUNT(*)\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-scalar-subquery",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 2,
+    "PARENT_OPERATORS": "[\n  1\n]",
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 1000,\n  \"output_rows\": 523\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"filter_condition\": \"(UNIFORM(1, 10, RANDOM(4))) > Subquery(Step1)\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-scalar-subquery",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 3,
+    "PARENT_OPERATORS": "[\n  2\n]",
+    "OPERATOR_TYPE": "Generator",
+    "OPERATOR_STATISTICS": "{\n  \"output_rows\": 1000\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"rowcount\": \"1000\"\n}"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "QUERY_ID": "snowflake-time-shares",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 0,
+    "PARENT_OPERATORS": null,
+    "OPERATOR_TYPE": "Result",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 5\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"expressions\": [\n    \"(UNIFORM(1, 1000000, RANDOM(1))) % 100000\",\n    \"COUNT(*)\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-time-shares",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 1,
+    "PARENT_OPERATORS": "[\n  0\n]",
+    "OPERATOR_TYPE": "SortWithLimit",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 100000,\n  \"output_rows\": 5\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"offset\": 0.000000000000000e+00,\n  \"rows\": 5.000000000000000e+00,\n  \"sort_keys\": [\n    \"COUNT(*) DESC NULLS FIRST\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-time-shares",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 2,
+    "PARENT_OPERATORS": "[\n  1\n]",
+    "OPERATOR_TYPE": "Aggregate",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 33335403,\n  \"output_rows\": 100000\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 2.121212121212121e-01,\n  \"processing\": 2.121212121212121e-01\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"functions\": [\n    \"COUNT(*)\"\n  ],\n  \"grouping_keys\": [\n    \"(UNIFORM(1, 1000000, RANDOM(1))) % 100000\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-time-shares",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 3,
+    "PARENT_OPERATORS": "[\n  2\n]",
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 100000000,\n  \"output_rows\": 33335403\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 7.272727272727273e-01,\n  \"processing\": 6.969696969696969e-01,\n  \"synchronization\": 3.030303030303030e-02\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"filter_condition\": \"((UNIFORM(1, 1000000, RANDOM(1))) % 3) = 0\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-time-shares",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 4,
+    "PARENT_OPERATORS": "[\n  3\n]",
+    "OPERATOR_TYPE": "Generator",
+    "OPERATOR_STATISTICS": "{\n  \"output_rows\": 100000000\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"rowcount\": \"100000000\"\n}"
+  }
+]

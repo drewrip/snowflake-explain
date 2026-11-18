@@ -77,8 +77,12 @@ fn summary(node: &Node) -> String {
         (Some(input), Some(output)) if input != output => {
             parts.push(format!("rows={}->{}", compact(input), compact(output)));
         }
-        (_, Some(output)) => parts.push(format!("rows={}", compact(output))),
-        _ => {}
+        // `Result` reports only input rows, sources only output rows.
+        (input, output) => {
+            if let Some(rows) = output.or(input) {
+                parts.push(format!("rows={}", compact(rows)));
+            }
+        }
     }
     if let (Some(scanned), Some(total)) = (stats.partitions_scanned, stats.partitions_total) {
         parts.push(format!("partitions={scanned}/{total}"));

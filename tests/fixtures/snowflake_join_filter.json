@@ -1,0 +1,72 @@
+[
+  {
+    "QUERY_ID": "snowflake-join-filter",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 0,
+    "PARENT_OPERATORS": null,
+    "OPERATOR_TYPE": "Result",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 10\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"expressions\": [\n    \"SEQ4()\",\n    \"UNIFORM(1, 1000, RANDOM(2))\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-join-filter",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 1,
+    "PARENT_OPERATORS": "[\n  0\n]",
+    "OPERATOR_TYPE": "SortWithLimit",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 736,\n  \"output_rows\": 10\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"offset\": 0.000000000000000e+00,\n  \"rows\": 1.000000000000000e+01,\n  \"sort_keys\": [\n    \"O.TOTAL DESC NULLS FIRST\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-join-filter",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 2,
+    "PARENT_OPERATORS": "[\n  1\n]",
+    "OPERATOR_TYPE": "Join",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 1506,\n  \"output_rows\": 736\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"additional_join_condition\": \"(UNIFORM(1, 1000, RANDOM(2))) > (UNIFORM(1, 1000, RANDOM(3)))\",\n  \"equality_join_condition\": \"(SEQ4() = UNIFORM(1, 100, RANDOM(1)))\",\n  \"join_type\": \"INNER\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-join-filter",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 3,
+    "PARENT_OPERATORS": "[\n  2\n]",
+    "OPERATOR_TYPE": "Generator",
+    "OPERATOR_STATISTICS": "{\n  \"output_rows\": 100\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"rowcount\": \"100\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-join-filter",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 4,
+    "PARENT_OPERATORS": "[\n  2\n]",
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 9883,\n  \"output_rows\": 1406\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"filter_condition\": \"(SEQ4() % 7) = 0\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-join-filter",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 5,
+    "PARENT_OPERATORS": "[\n  4\n]",
+    "OPERATOR_TYPE": "JoinFilter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 10000,\n  \"output_rows\": 9883\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"join_id\": \"2\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-join-filter",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 6,
+    "PARENT_OPERATORS": "[\n  5\n]",
+    "OPERATOR_TYPE": "Generator",
+    "OPERATOR_STATISTICS": "{\n  \"output_rows\": 10000\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"rowcount\": \"10000\"\n}"
+  }
+]

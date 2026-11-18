@@ -1,0 +1,112 @@
+[
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 0,
+    "PARENT_OPERATORS": null,
+    "OPERATOR_TYPE": "Result",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 1\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"expressions\": [\n    \"COUNT(*)\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 1,
+    "PARENT_OPERATORS": "[\n  0\n]",
+    "OPERATOR_TYPE": "Aggregate",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 500,\n  \"output_rows\": 1\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"functions\": [\n    \"COUNT(*)\"\n  ]\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 2,
+    "PARENT_OPERATORS": "[\n  1\n]",
+    "OPERATOR_TYPE": "UnionAll",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 500,\n  \"output_rows\": 500\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 3,
+    "PARENT_OPERATORS": "[\n  2\n]",
+    "OPERATOR_TYPE": "WithReference",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 250,\n  \"output_rows\": 250\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 4,
+    "PARENT_OPERATORS": "[\n  3\n]",
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 500,\n  \"output_rows\": 250\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"filter_condition\": \"EVENS.N < 500\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 5,
+    "PARENT_OPERATORS": "[\n  4,\n  10\n]",
+    "OPERATOR_TYPE": "WithClause",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 500,\n  \"output_rows\": 500\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"name\": \"EVENS\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 6,
+    "PARENT_OPERATORS": "[\n  5\n]",
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 500,\n  \"output_rows\": 500\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"filter_condition\": \"(EVENS.N < 500) OR (EVENS.N >= 500)\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 7,
+    "PARENT_OPERATORS": "[\n  6\n]",
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 1000,\n  \"output_rows\": 500\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"filter_condition\": \"(SEQ4() % 2) = 0\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 8,
+    "PARENT_OPERATORS": "[\n  7\n]",
+    "OPERATOR_TYPE": "Generator",
+    "OPERATOR_STATISTICS": "{\n  \"output_rows\": 1000\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"rowcount\": \"1000\"\n}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 9,
+    "PARENT_OPERATORS": "[\n  2\n]",
+    "OPERATOR_TYPE": "WithReference",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 250,\n  \"output_rows\": 250\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{}"
+  },
+  {
+    "QUERY_ID": "snowflake-shared-cte",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 10,
+    "PARENT_OPERATORS": "[\n  9\n]",
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": "{\n  \"input_rows\": 500,\n  \"output_rows\": 250\n}",
+    "EXECUTION_TIME_BREAKDOWN": "{\n  \"overall_percentage\": 0.000000000000000e+00\n}",
+    "OPERATOR_ATTRIBUTES": "{\n  \"filter_condition\": \"EVENS.N >= 500\"\n}"
+  }
+]

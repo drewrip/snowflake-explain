@@ -196,3 +196,75 @@ fn rejects_unknown_parents() {
         })
     );
 }
+
+// The fixtures below are real GET_QUERY_OPERATOR_STATS output from Snowflake,
+// exported with `snow sql --format json`, for queries over synthetic
+// GENERATOR data. Only the query ids were replaced.
+
+#[test]
+fn snowflake_join_filter() {
+    let plan = plan("snowflake_join_filter.json");
+    let join = plan.steps[0].node(2).unwrap();
+
+    assert_eq!(join.operator, "Join");
+    assert_eq!(join.attributes["join_type"], "INNER");
+    assert_eq!(join.children, [3, 4]);
+    assert_eq!(
+        plan.to_string(),
+        "\
+Step 1
+-> Result [0]  rows=10  time=0.0%
+   -> SortWithLimit [1]  rows=736->10  time=0.0%
+      -> Join [2]  INNER  on (SEQ4() = UNIFORM(1, 100, RANDOM(1)))  and (UNIFORM(1, 1000, RANDOM(2))) > (UNIFORM(1, 1000, RANDOM(3)))  rows=1.5K->736  time=0.0%
+         -> Generator [3]  rows=100  time=0.0%
+         -> Filter [4]  where (SEQ4() % 7) = 0  rows=9.9K->1.4K  time=0.0%
+            -> JoinFilter [5]  rows=10.0K->9.9K  time=0.0%
+               -> Generator [6]  rows=10.0K  time=0.0%
+"
+    );
+}
+
+#[test]
+fn snowflake_shared_cte() {
+    let plan = plan("snowflake_shared_cte.json");
+    let step = &plan.steps[0];
+    let with_clause = step.node(5).unwrap();
+
+    assert_eq!(with_clause.operator, "WithClause");
+    assert_eq!(with_clause.parents, [4, 10]);
+    assert_eq!(
+        step.nodes
+            .iter()
+            .filter(|n| n.operator == "WithClause")
+            .count(),
+        1
+    );
+    assert!(plan.to_string().contains("-> WithClause [5]  (see above)"));
+}
+
+#[test]
+fn snowflake_scalar_subquery_runs_as_two_steps() {
+    let plan = plan("snowflake_scalar_subquery.json");
+
+    assert_eq!(plan.steps.iter().map(|s| s.id).collect::<Vec<_>>(), [1, 2]);
+    assert_eq!(plan.steps[0].nodes.len(), 3);
+    assert_eq!(
+        plan.steps[1].node(2).unwrap().attributes["filter_condition"],
+        "(UNIFORM(1, 10, RANDOM(4))) > Subquery(Step1)"
+    );
+}
+
+/// A 100M-row query that ran for 3227 ms. Its time shares sum to about 1,
+/// which shows Snowflake reports them as fractions, not 0-100 percentages.
+#[test]
+fn snowflake_time_shares_are_fractions() {
+    let plan = plan("snowflake_time_shares.json").with_execution_time(3227);
+    let step = &plan.steps[0];
+    let total: f64 = step.nodes.iter().filter_map(|n| n.time.overall).sum();
+
+    assert!((0.9..=1.0).contains(&total), "shares sum to {total}");
+    let filter = step.node(3).unwrap();
+    assert_eq!(filter.operator, "Filter");
+    assert_eq!(filter.estimated_ms.unwrap().round(), 2347.0);
+    assert!(plan.to_string().contains("-> Filter [3]  where ((UNIFORM(1, 1000000, RANDOM(1))) % 3) = 0  rows=100.0M->33.3M  time=72.7%  ~2347ms"));
+}
