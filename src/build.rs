@@ -22,7 +22,11 @@ impl QueryPlan {
             .map(|(id, nodes)| link_step(id, nodes))
             .collect::<Result<_, _>>()?;
 
-        Ok(QueryPlan { query_id, steps })
+        Ok(QueryPlan {
+            query_id: Some(query_id),
+            steps,
+            ..QueryPlan::default()
+        })
     }
 }
 
@@ -38,7 +42,7 @@ fn single_query_id(rows: &[OperatorStatsRow]) -> Result<String, BuildError> {
 }
 
 /// Sorts a step's nodes and fills in each node's `children` from its children's `parents`.
-fn link_step(id: u32, mut nodes: Vec<Node>) -> Result<Step, BuildError> {
+pub(crate) fn link_step(id: u32, mut nodes: Vec<Node>) -> Result<Step, BuildError> {
     nodes.sort_by_key(|node| node.id);
     if let Some(pair) = nodes.windows(2).find(|pair| pair[0].id == pair[1].id) {
         return Err(BuildError::DuplicateOperator {
@@ -63,7 +67,11 @@ fn link_step(id: u32, mut nodes: Vec<Node>) -> Result<Step, BuildError> {
         nodes[index].children.push(child);
     }
 
-    Ok(Step { id, nodes })
+    Ok(Step {
+        id,
+        estimated_ms: None,
+        nodes,
+    })
 }
 
 fn to_node(row: OperatorStatsRow) -> Node {
@@ -85,6 +93,9 @@ fn to_stats(statistics: Value) -> Stats {
     Stats {
         input_rows: take_u64(&mut other, &["input_rows"]),
         output_rows: take_u64(&mut other, &["output_rows"]),
+        rows_inserted: take_u64(&mut other, &["dml", "number_of_rows_inserted"]),
+        rows_updated: take_u64(&mut other, &["dml", "number_of_rows_updated"]),
+        rows_deleted: take_u64(&mut other, &["dml", "number_of_rows_deleted"]),
         bytes_scanned: take_u64(&mut other, &["io", "bytes_scanned"]),
         partitions_scanned: take_u64(&mut other, &["pruning", "partitions_scanned"]),
         partitions_total: take_u64(&mut other, &["pruning", "partitions_total"]),

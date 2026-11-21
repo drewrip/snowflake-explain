@@ -1,0 +1,214 @@
+[
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 1,
+    "OPERATOR_ID": 0,
+    "PARENT_OPERATORS": null,
+    "OPERATOR_TYPE": "CREATE TABLE",
+    "OPERATOR_STATISTICS": {},
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 1.0,
+      "other": 1.0
+    },
+    "OPERATOR_ATTRIBUTES": {}
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 0,
+    "PARENT_OPERATORS": null,
+    "OPERATOR_TYPE": "Result",
+    "OPERATOR_STATISTICS": {
+      "input_rows": 0
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.0
+    },
+    "OPERATOR_ATTRIBUTES": {}
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 1,
+    "PARENT_OPERATORS": [
+      0
+    ],
+    "OPERATOR_TYPE": "CreateTableAsSelect",
+    "OPERATOR_STATISTICS": {
+      "dml": {
+        "number_of_rows_inserted": 1000
+      },
+      "io": {
+        "bytes_written": 15872
+      },
+      "input_rows": 1000,
+      "output_rows": 0
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.2424242424242424,
+      "remote_disk_io": 0.2424242424242424
+    },
+    "OPERATOR_ATTRIBUTES": {
+      "input_expressions": [
+        "B.K",
+        "SUM(B.A)",
+        "COUNT(DISTINCT B.S)",
+        "MAX(T.N)"
+      ],
+      "table_name": "CMU.DAGBENCH_DEE_SMOKE.T_BIG"
+    }
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 2,
+    "PARENT_OPERATORS": [
+      1
+    ],
+    "OPERATOR_TYPE": "Aggregate",
+    "OPERATOR_STATISTICS": {
+      "input_rows": 6666667,
+      "output_rows": 1000
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.303030303030303,
+      "processing": 0.303030303030303
+    },
+    "OPERATOR_ATTRIBUTES": {
+      "functions": [
+        "SUM(B.A)",
+        "COUNT(DISTINCT B.S)",
+        "MAX(T.N)"
+      ],
+      "grouping_keys": [
+        "B.K"
+      ]
+    }
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 3,
+    "PARENT_OPERATORS": [
+      2
+    ],
+    "OPERATOR_TYPE": "Join",
+    "OPERATOR_STATISTICS": {
+      "input_rows": 6666674,
+      "output_rows": 6666667
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.0
+    },
+    "OPERATOR_ATTRIBUTES": {
+      "equality_join_condition": "(T.K = B.K % 7)",
+      "join_type": "INNER"
+    }
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 4,
+    "PARENT_OPERATORS": [
+      3
+    ],
+    "OPERATOR_TYPE": "TableScan",
+    "OPERATOR_STATISTICS": {
+      "io": {
+        "percentage_scanned_from_cache": 1,
+        "scan_progress": 1,
+        "bytes_scanned": 1024
+      },
+      "output_rows": 7,
+      "pruning": {
+        "partitions_scanned": 1,
+        "partitions_total": 1
+      }
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.0
+    },
+    "OPERATOR_ATTRIBUTES": {
+      "columns": [
+        "K",
+        "N"
+      ],
+      "table_alias": "T",
+      "table_name": "CMU.DAGBENCH_DEE_SMOKE.T"
+    }
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 5,
+    "PARENT_OPERATORS": [
+      3
+    ],
+    "OPERATOR_TYPE": "Filter",
+    "OPERATOR_STATISTICS": {
+      "input_rows": 6666667,
+      "output_rows": 6666667
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.0
+    },
+    "OPERATOR_ATTRIBUTES": {
+      "filter_condition": "(B.A % 3) = 0"
+    }
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 6,
+    "PARENT_OPERATORS": [
+      5
+    ],
+    "OPERATOR_TYPE": "JoinFilter",
+    "OPERATOR_STATISTICS": {
+      "input_rows": 6666667,
+      "output_rows": 6666667
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.0303030303030303,
+      "processing": 0.0303030303030303
+    },
+    "OPERATOR_ATTRIBUTES": {
+      "join_id": "3"
+    }
+  },
+  {
+    "QUERY_ID": "snowflake-ctas",
+    "STEP_ID": 2,
+    "OPERATOR_ID": 7,
+    "PARENT_OPERATORS": [
+      6
+    ],
+    "OPERATOR_TYPE": "TableScan",
+    "OPERATOR_STATISTICS": {
+      "io": {
+        "percentage_scanned_from_cache": 1,
+        "scan_progress": 1,
+        "bytes_scanned": 325253120
+      },
+      "output_rows": 6666667,
+      "pruning": {
+        "partitions_scanned": 20,
+        "partitions_total": 20
+      }
+    },
+    "EXECUTION_TIME_BREAKDOWN": {
+      "overall_percentage": 0.3333333333333333,
+      "processing": 0.2727272727272727,
+      "synchronization": 0.0606060606060606
+    },
+    "OPERATOR_ATTRIBUTES": {
+      "columns": [
+        "A",
+        "K",
+        "S"
+      ],
+      "table_alias": "B",
+      "table_name": "CMU.DAGBENCH_DEE_SMOKE.BIG"
+    }
+  }
+]

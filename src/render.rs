@@ -3,7 +3,8 @@ use std::fmt;
 
 use crate::{Node, QueryPlan, Step};
 
-/// Prints the plan as an indented tree, one line per operator:
+/// Prints the plan as an indented tree, one line per operator. `time=` is
+/// the operator's share of its step:
 ///
 /// ```text
 /// Step 1
@@ -17,7 +18,10 @@ use crate::{Node, QueryPlan, Step};
 impl fmt::Display for QueryPlan {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for step in &self.steps {
-            writeln!(f, "Step {}", step.id)?;
+            match step.estimated_ms {
+                Some(ms) => writeln!(f, "Step {}  ~{ms:.0}ms", step.id)?,
+                None => writeln!(f, "Step {}", step.id)?,
+            }
             let mut printed = HashSet::new();
             for root in step.roots() {
                 write_node(f, step, root, 0, &mut printed)?;
@@ -82,6 +86,15 @@ fn summary(node: &Node) -> String {
             if let Some(rows) = output.or(input) {
                 parts.push(format!("rows={}", compact(rows)));
             }
+        }
+    }
+    for (label, rows) in [
+        ("inserted", stats.rows_inserted),
+        ("updated", stats.rows_updated),
+        ("deleted", stats.rows_deleted),
+    ] {
+        if let Some(rows) = rows {
+            parts.push(format!("{label}={}", compact(rows)));
         }
     }
     if let (Some(scanned), Some(total)) = (stats.partitions_scanned, stats.partitions_total) {

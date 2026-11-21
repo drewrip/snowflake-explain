@@ -1,10 +1,13 @@
 use thiserror::Error;
 
-/// Why a set of operator rows could not be turned into a [`QueryPlan`](crate::QueryPlan).
+/// Why operator rows or an `EXPLAIN` document could not be turned into a [`QueryPlan`](crate::QueryPlan).
 #[derive(Debug, Clone, PartialEq, Eq, Error)]
 pub enum BuildError {
-    #[error("no operator rows were given")]
+    #[error("no operators were given")]
     Empty,
+
+    #[error("not an `EXPLAIN USING JSON` plan: {0}")]
+    InvalidExplain(String),
 
     #[error("rows belong to more than one query: {0} and {1}")]
     MixedQueryIds(String, String),
